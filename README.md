@@ -43,3 +43,6 @@ This jquery plugin will draw line chart using canvas element.
             });
         });
 ```
+### Copyright
+
+MIT-LICENCE
