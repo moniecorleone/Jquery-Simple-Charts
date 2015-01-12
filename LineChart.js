@@ -157,14 +157,14 @@
                     var dx = mouseX - dot.x;
                     var dy = mouseY - dot.y;
                     if (dx * dx + dy * dy < dot.rXr) {
-                        tipCanvas[0].style.left = (dot.x - (tipCanvas[0].width / 2)) + 5 + "px";
-                        tipCanvas[0].style.top = (dot.y - 13 - tipCanvas[0].height) + config.topmargin + "px";
+                        tipCanvas[0].style.left = (dot.x - (tipCanvas[0].width / 2)) - 3 + "px";
+                        tipCanvas[0].style.top = (dot.y - 21 - tipCanvas[0].height) + config.topmargin + "px";
                         tipCtx.clearRect(0, 0, tipCanvas[0].width, tipCanvas[0].height);
                         tipCtx.fillText(dot.tip, 5, 15);
-                        tipbaloontip[0].style.left = (dot.x) - 0 + "px";
-                        tipbaloontip[0].style.top = (dot.y + config.topmargin) - 12 + "px";
-                        highlighter[0].style.left = (dot.x) - 1 + "px";
-                        highlighter[0].style.top = (dot.y + config.topmargin) - 1 + "px";
+                        tipbaloontip[0].style.left = (dot.x) - 7 + "px";
+                        tipbaloontip[0].style.top = (dot.y + config.topmargin) - 19 + "px";
+                        highlighter[0].style.left = (dot.x) - 9 + "px";
+                        highlighter[0].style.top = (dot.y + config.topmargin) - 9 + "px";
                         higlightctx.clearRect(0, 0, highlighter.width(), highlighter.height());
                         higlightctx.strokeStyle = dot.color;
                         higlightctx.beginPath();
