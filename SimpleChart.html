@@ -3,123 +3,122 @@
 <head>
     <title></title>
     <style>
-    .LineChart
-	{
-	position:relative;
-	}
-.LineChart #tip {
-    background-color: #f0f0f0;
-    border: 1px solid #d0d0d0;
-    position: absolute;
-    left: -200px;
-    top: 30px;
-}
-
-.down-triangle {
-    width: 0;
-    height: 0;
-    border-top: 10px solid #d0d0d0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    position: absolute;
-    left: -200px;
-}
-
-
-.LineChart #highlighter {
-    position: absolute;
-    left: -200px;
-}
-
-.-line-chart-holder {
-    float: left;
-    position: relative;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #cecece;
-    /*padding: 6px;*/
-}
-
-
-.LineChart .legendsli {
-    list-style: none;
-}
-
-    .LineChart .legendsli span {
-        float: left;
-        vertical-align: middle;
-    }
-
-        .LineChart .legendsli span.legendindicator {
+        .SimpleChart {
             position: relative;
-            top: 5px;
         }
 
-            .LineChart .legendsli span.legendindicator .line {
-                width: 30px;
-                height: 3px;
+            .SimpleChart #tip {
+                background-color: #f0f0f0;
+                border: 1px solid #d0d0d0;
+                position: absolute;
+                left: -200px;
+                top: 30px;
             }
 
-            .LineChart .legendsli span.legendindicator .circle {
-                width: 12px;
-                height: 12px;
-                border-radius: 20px;
-                position: relative;
-                top: -5px;
-                right: 20px;
-            }
+        .down-triangle {
+            width: 0;
+            height: 0;
+            border-top: 10px solid #d0d0d0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            position: absolute;
+            left: -200px;
+        }
 
 
-/******Starts::Horizontal Alignment of Legends******/
+        .SimpleChart #highlighter {
+            position: absolute;
+            left: -200px;
+        }
 
-.line-chart-legends {
-    background: #E7E7E7;
-    border: 1px solid #d6d7dd;
-    padding: 5px;
-    margin: 2px 0px;
-}
-
-    .line-chart-legends ul {
-    }
-
-        .line-chart-legends ul li {
-            display: inline;
-            border-right: 1px solid #d6d7dd;
+        .-simple-chart-holder {
             float: left;
-            padding: 10px;
+            position: relative;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #cecece;
+            /*padding: 6px;*/
         }
 
-            .line-chart-legends ul li:last-child {
-                border-right: 0px;
-            }
 
-
-    .line-chart-legends.vertical {
-        margin: 0px 10px;
-    }
-
-        .line-chart-legends.vertical ul li {
-            display: block;
-            border: 0px;
-            border-bottom: 1px solid #d6d7dd;
+        .SimpleChart .legendsli {
+            list-style: none;
         }
 
-            .line-chart-legends.vertical ul li:last-child {
-                border-bottom: 0px;
+            .SimpleChart .legendsli span {
+                float: left;
+                vertical-align: middle;
             }
 
-/******Starts::Horizontal Alignment of Legends******/
-.line-chart-Header {
-    position: absolute;
-    font-size: 16px;
-}
+                .SimpleChart .legendsli span.legendindicator {
+                    position: relative;
+                    top: 5px;
+                }
+
+                    .SimpleChart .legendsli span.legendindicator .line {
+                        width: 30px;
+                        height: 3px;
+                    }
+
+                    .SimpleChart .legendsli span.legendindicator .circle {
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 20px;
+                        position: relative;
+                        top: -5px;
+                        right: 20px;
+                    }
 
 
+        /******Starts::Horizontal Alignment of Legends******/
+
+        .simple-chart-legends {
+            background: #E7E7E7;
+            border: 1px solid #d6d7dd;
+            padding: 5px;
+            margin: 2px 0px;
+        }
+
+            .simple-chart-legends ul {
+            }
+
+                .simple-chart-legends ul li {
+                    display: inline;
+                    border-right: 1px solid #d6d7dd;
+                    float: left;
+                    padding: 10px;
+                }
+
+                    .simple-chart-legends ul li:last-child {
+                        border-right: 0px;
+                    }
+
+
+            .simple-chart-legends.vertical {
+                margin: 0px 10px;
+            }
+
+                .simple-chart-legends.vertical ul li {
+                    display: block;
+                    border: 0px;
+                    border-bottom: 1px solid #d6d7dd;
+                }
+
+                    .simple-chart-legends.vertical ul li:last-child {
+                        border-bottom: 0px;
+                    }
+
+        /******Starts::Horizontal Alignment of Legends******/
+        .simple-chart-Header {
+            position: absolute;
+            font-size: 16px;
+        }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
-    <script src="LineChart.js"></script>
+    <script src="SimpleChart.js"></script>
     <script>
         var graphdata1 = {
+            ChartType: "Area",
             linecolor: "#FF99CC",
             title: "Monday",
             values: [
@@ -236,26 +235,37 @@
             ]
         };
         $(function () {
-            $("#linegraph").LineChart({              
+            $("#linegraph").SimpleChart({
+                ChartType: "Line",
                 toolwidth: "50",
                 toolheight: "25",
                 axiscolor: "#E6E6E6",
                 textcolor: "#6E6E6E",
                 showlegends: true,
-                data: [graphdata1, graphdata2, graphdata3, graphdata4],
+                data: [graphdata4, graphdata3, graphdata2, graphdata1],
                 legendsize: "80",
                 legendposition: 'bottom',
                 xaxislabel: 'Hours',
                 title: 'Weekly Profit',
                 yaxislabel: 'Profit in $'
             });
+            $("#sltchartype").on('change', function () {
+                $("#linegraph").SimpleChart('ChartType', $(this).val());
+                $("#linegraph").SimpleChart('reload', 'true');
+            });
         });
-       
+
     </script>
 </head>
 <body>
-    <div id="linegraph" style="width:98%;height:500px">
+    Select Chart Type:
+
+    <select id="sltchartype">
+        <option>Line</option>
+        <option>Area</option>
+        <option>Scattered</option>
+    </select>
+    <div id="linegraph" style="width: 98%; height: 500px">
     </div>
-    
 </body>
 </html>
