@@ -1,6 +1,6 @@
 # Simple Jquery-Line/Area/Scatterred-Chart
 
-This jquery plugin will draw Line/Area/Scatterred chart using canvas element. 
+This jquery plugin will draw Line, Area, Scattered, Bar, Hybrid, Pie chart using canvas element. 
 
 
 ## Basic Usage
