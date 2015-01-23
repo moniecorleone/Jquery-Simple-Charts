@@ -90,7 +90,6 @@
         destroy: function () {
             $(this.element).empty();
         },
-
         FindYMax: function () {
             config = this.options;
             var max = 0;
@@ -104,19 +103,16 @@
             max += 10 - max % 10;
             return max;
         },
-
         pixelX: function (val, i) {
             config = this.options;
             var graph = $(this.element).find('.SimpleChartcanvas');
             return ((graph.width() - config.xPadding) / config.data[i].values.length) * val + (config.xPadding * 1.5);
         },
-
         pixelY: function (val) {
             config = this.options;
             var graph = $(this.element).find('.SimpleChartcanvas');
             return graph.height() - (((graph.height() - config.yPadding) / this.FindYMax()) * val) - config.yPadding;
         },
-
         getRandomColor: function () {
             var letters = '0123456789ABCDEF'.split('');
             var color = '#';
@@ -125,7 +121,6 @@
             }
             return color;
         },
-
         drawAxis: function (c, graph) {
             var that = this, xelementarray = new Array(),
             config = this.options;
@@ -260,6 +255,9 @@
             var highlighter = $(that.element).append("<canvas id='highlighter'></canvas>").find('#highlighter').attr('width', "18").attr('height', "18");
             var higlightctx = highlighter[0].getContext("2d");
             var tipbaloontip = $(that.element).find('.down-triangle');
+            var canvasOffset = $(graph).offset();
+            var offsetX = canvasOffset.left;
+            var offsetY = canvasOffset.top;
             $(graph[0]).on("mousemove", function (e) {                
                 drawToolTiponHover(e);
             });
@@ -305,11 +303,9 @@
             }
 
             function drawToolTiponHover(e) {
-                var canvasOffset = $(graph).offset();
-                var offsetX = canvasOffset.left;
-                var offsetY = canvasOffset.top;
-                mouseX = parseInt(e.clientX - offsetX);
-                mouseY = parseInt(e.clientY - offsetY);
+                debugger;
+                mouseX = parseInt(e.pageX - offsetX);
+                mouseY = parseInt(e.pageY - offsetY);
                 var hit = false;
                 for (var i = 0; i < linepoints.length; i++) {
                     var dot = linepoints[i];
