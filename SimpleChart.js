@@ -303,7 +303,6 @@
             }
 
             function drawToolTiponHover(e) {
-                debugger;
                 mouseX = parseInt(e.pageX - offsetX);
                 mouseY = parseInt(e.pageY - offsetY);
                 var hit = false;
