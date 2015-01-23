@@ -108,6 +108,11 @@
                         border-bottom: 0px;
                     }
 
+            .simple-chart-legends .legendvalue {
+                padding-left: 2px;
+                background:#fff;
+            }
+
         /******Starts::Horizontal Alignment of Legends******/
         .simple-chart-Header {
             position: absolute;
@@ -177,7 +182,7 @@
             ]
         };
         var graphdata3 = {
-            linecolor: "#3399FF",
+            linecolor: "Random",
             title: "Wednesday",
             values: [
               { X: "6:00", Y: 30.00 },
@@ -234,24 +239,107 @@
             { X: "4:00", Y: 110.00 }
             ]
         };
+        var Piedata = {
+            linecolor: "Random",
+            title: "Profit",
+            values: [
+              { X: "Monday", Y: 50.00 },
+            { X: "Tuesday", Y: 110.98 },
+            { X: "Wednesday", Y: 70.00 },
+            { X: "Thursday", Y: 204.00 },
+            { X: "Friday", Y: 80.25 },
+            { X: "Saturday", Y: 38.56 },
+            { X: "Sunday", Y: 98.57 }
+            ]
+        };
         $(function () {
-            $("#linegraph").SimpleChart({
-                ChartType: "Line",
+            $("#Bargraph").SimpleChart({
+                ChartType: "Bar",
                 toolwidth: "50",
                 toolheight: "25",
                 axiscolor: "#E6E6E6",
                 textcolor: "#6E6E6E",
                 showlegends: true,
-                data: [graphdata4, graphdata3, graphdata2, graphdata1],
-                legendsize: "80",
+                data: [graphdata3, graphdata4, graphdata2, graphdata1],
+                legendsize: "140",
                 legendposition: 'bottom',
                 xaxislabel: 'Hours',
                 title: 'Weekly Profit',
                 yaxislabel: 'Profit in $'
             });
             $("#sltchartype").on('change', function () {
-                $("#linegraph").SimpleChart('ChartType', $(this).val());
-                $("#linegraph").SimpleChart('reload', 'true');
+                $("#Bargraph").SimpleChart('ChartType', $(this).val());
+                $("#Bargraph").SimpleChart('reload', 'true');
+            });
+            $("#Hybridgraph").SimpleChart({
+                ChartType: "Hybrid",
+                toolwidth: "50",
+                toolheight: "25",
+                axiscolor: "#E6E6E6",
+                textcolor: "#6E6E6E",
+                showlegends: true,
+                data: [graphdata3],
+                legendsize: "140",
+                legendposition: 'bottom',
+                xaxislabel: 'Hours',
+                title: 'Weekly Profit',
+                yaxislabel: 'Profit in $'
+            });
+            $("#Linegraph").SimpleChart({
+                ChartType: "Line",
+                toolwidth: "50",
+                toolheight: "25",
+                axiscolor: "#E6E6E6",
+                textcolor: "#6E6E6E",
+                showlegends: true,
+                data: [graphdata3, graphdata4, graphdata2, graphdata1],
+                legendsize: "140",
+                legendposition: 'bottom',
+                xaxislabel: 'Hours',
+                title: 'Weekly Profit',
+                yaxislabel: 'Profit in $'
+            });
+            $("#Areagraph").SimpleChart({
+                ChartType: "Area",
+                toolwidth: "50",
+                toolheight: "25",
+                axiscolor: "#E6E6E6",
+                textcolor: "#6E6E6E",
+                showlegends: true,
+                data: [graphdata3, graphdata4, graphdata2, graphdata1],
+                legendsize: "140",
+                legendposition: 'bottom',
+                xaxislabel: 'Hours',
+                title: 'Weekly Profit',
+                yaxislabel: 'Profit in $'
+            });
+            $("#Scatterredgraph").SimpleChart({
+                ChartType: "Scattered",
+                toolwidth: "50",
+                toolheight: "25",
+                axiscolor: "#E6E6E6",
+                textcolor: "#6E6E6E",
+                showlegends: true,
+                data: [graphdata3, graphdata4, graphdata2, graphdata1],
+                legendsize: "140",
+                legendposition: 'bottom',
+                xaxislabel: 'Hours',
+                title: 'Weekly Profit',
+                yaxislabel: 'Profit in $'
+            });
+            $("#Piegraph").SimpleChart({
+                ChartType: "Pie",
+                toolwidth: "50",
+                toolheight: "25",
+                axiscolor: "#E6E6E6",
+                textcolor: "#6E6E6E",
+                showlegends: true,
+                data: [Piedata],
+                legendsize: "140",
+                legendposition: 'bottom',
+                xaxislabel: 'Hours',
+                title: 'Weekly Profit',
+                yaxislabel: 'Profit in $'
             });
         });
 
@@ -260,12 +348,43 @@
 <body>
     Select Chart Type:
 
+   
+
     <select id="sltchartype">
+        <option>Bar</option>
+        <option>Hybrid</option>
         <option>Line</option>
         <option>Area</option>
         <option>Scattered</option>
+        <option>Pie</option>
     </select>
-    <div id="linegraph" style="width: 98%; height: 500px">
+    <h2>Bar</h2>
+    <div id="Bargraph" style="width: 98%; height: 500px">
+    </div>
+    <br />
+    <br />
+    <h2>Hybrid</h2>
+    <div id="Hybridgraph" style="width: 98%; height: 500px">
+    </div>
+    <br />
+    <br />
+    <h2>Line</h2>
+    <div id="Linegraph" style="width: 98%; height: 500px">
+    </div>
+    <br />
+    <br />
+    <h2>Area</h2>
+    <div id="Areagraph" style="width: 98%; height: 500px">
+    </div>
+    <br />
+    <br />
+    <h2>Scattered</h2>
+    <div id="Scatterredgraph" style="width: 98%; height: 500px">
+    </div>
+    <br />
+    <br />
+    <h2>Pie</h2>
+    <div id="Piegraph" style="width: 98%; height: 500px">
     </div>
 </body>
 </html>
