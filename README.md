@@ -2,6 +2,11 @@
 
 This jquery plugin will draw Line, Area, Scattered, Bar, Hybrid, Pie chart using canvas element. 
 
+####Demo
+
+[Simple Charts](http://www.jqueryscript.net/demo/Lightweight-Line-Chart-Plugin-with-jQuery-Canvas/)
+
+
 
 ## Basic Usage
 
