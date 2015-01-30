@@ -5,7 +5,7 @@
 ; (function ($, window, document, undefined) {
     var pluginName = "SimpleChart";
     var defaults = {
-        ChartType: "Line", //Area, Scattered, Bar, Hybrid, Pie
+        ChartType: "Line", //Area, Scattered, Bar, Hybrid, Pie, Stacked, Stacked Hybrid
         xPadding: 60,
         yPadding: 50,
         topmargin: 25,
@@ -17,9 +17,13 @@
         font: "italic 10pt sans-serif",
         headerfontsize: "14px",
         axisfontsize: "12px",
+        piefontsize: "13px",
+        pielabelcolor: "#fff",
+        pielabelpercentcolor: "#000",
         textAlign: "center",
         textcolor: "#E6E6E6",
         showlegends: true,
+        showpielables: false,
         legendposition: 'bottom',
         legendsize: '100',
         xaxislabel: null,
@@ -41,13 +45,13 @@
 
             var that = this,
            config = that.options;
-            var graph = $(that.element).addClass("SimpleChart").append("<canvas class='SimpleChartcanvas'></canvas>").find('canvas').css({
+            var graph = $(that.element).addClass("SimpleChart").addClass(config.ChartType).append("<canvas class='SimpleChartcanvas'></canvas>").find('canvas').css({
                 float: (config.legendposition == 'right' || config.legendposition == 'left') ? 'left' : '',
                 'margin-top': config.topmargin,
                 'margin-right': config.rightmargin
             });
             var ctx = graph[0].getContext("2d");
-            graph[0].width = $(that.element).width() - (config.showlegends ? ((config.legendposition == 'right' || config.legendposition == 'left') ? config.legendsize + config.xPadding : 0) : 0) - config.rightmargin;
+            graph[0].width = $(that.element).width() - (config.showlegends ? ((config.legendposition == 'right' || config.legendposition == 'left') ? parseInt(config.legendsize) + parseInt(config.xPadding) : 0) : 0) - config.rightmargin;
             graph[0].height = $(that.element).height() - (config.showlegends ? ((config.legendposition == 'bottom' || config.legendposition == 'top') ? config.legendsize : 0) : 0) - config.topmargin;
             var c = graph[0].getContext('2d');
             switch (config.ChartType) {
@@ -76,11 +80,20 @@
                 case "Pie":
                     that.drawPie(c, graph);
                     break;
+                case "Stacked":
+                    that.drawAxis(c, graph);
+                    that.drawStacked(c, graph);
+                    break;
+                case "StackedHybrid":
+                    that.drawAxis(c, graph);
+                    that.drawStacked(c, graph);
+                    that.drawLineAreaScatteredHybridCharts(c, graph);
+                    break;
             }
 
             //show legend
             if (config.showlegends) {
-                that.drawLegends();
+                that.drawLegends(graph);
             }
         },
         reload: function () {
@@ -189,7 +202,7 @@
             var that = this,
            config = this.options;
             c.clearRect(0, 0, graph.width(), graph.height());
-            var totalVal = 0, lastend = 0;;
+            var totalVal = 0, lastend = 0;
             for (var j = 0; j < config.data[0].values.length; j++) {
                 totalVal += (typeof config.data[0].values[j].Y == 'number') ? config.data[0].values[j].Y : 0;
             }
@@ -197,20 +210,50 @@
             for (var i = 0; i < config.data[0].values.length; i++) {
                 c.fillStyle = config.data[0].linecolor == "Random" ? config.data[0].values[i].color = randomcolor = that.getRandomColor() : config.data[0].linecolor;
                 c.beginPath();
-                c.moveTo(200, 150);
-                c.arc(200, 160, 150, lastend, lastend +
+                var centerx = graph.width() / 2.2;
+                var centery = graph.height() / 2.2;
+                c.moveTo(centerx, centery);
+                c.arc(centerx, centery, (config.legendposition == 'right' || config.legendposition == 'left') ? centerx : centery, lastend, lastend +
                   (Math.PI * 2 * (config.data[0].values[i].Y / totalVal)), false);
-                c.lineTo(200, 150);
+                c.lineTo(centerx, centery);
                 c.fill();
-                c.fillStyle = config.textcolor;
+                c.fillStyle = config.pielabelcolor;
                 c.lineWidth = config.pieborderWidth;
                 c.strokeStyle = config.pieborderColor;
                 c.stroke();
+
+                if (config.showpielables) {
+                    c.save();
+                    c.translate(centerx, centery);
+                    c.rotate(lastend - 0.20 +
+                      (Math.PI * 2 * (config.data[0].values[i].Y / totalVal)));
+                    var dx = Math.floor(centerx * 0.5) + 40;
+                    var dy = Math.floor(centery * 0.05);
+                    c.textAlign = "right";
+                    var fontArgs = c.font.split(' ');
+                    c.font = config.piefontsize + ' ' + fontArgs[fontArgs.length - 1];
+                    c.fillText(config.data[0].values[i].X, dx, dy);
+                    c.restore();
+
+                    c.save();
+                    c.fillStyle = config.pielabelpercentcolor;
+                    c.translate(centerx, centery);
+                    c.rotate(lastend - 0.15 +
+                      (Math.PI * 2 * (config.data[0].values[i].Y / totalVal)));
+                    var dx = Math.floor(centerx * 0.5) + 90;
+                    var dy = Math.floor(centery * 0.05);
+                    c.textAlign = "right";
+                    var fontArgs = c.font.split(' ');
+                    c.font = config.piefontsize + ' ' + fontArgs[fontArgs.length - 1];
+                    c.fillText(Math.round((config.data[0].values[i].Y / totalVal) * 100) + "%", dx, dy);
+                    c.restore();
+                }
                 lastend += Math.PI * 2 * (config.data[0].values[i].Y / totalVal);
             }
             var canvasOffset = $(graph).offset();
             var offsetX = canvasOffset.left;
             var offsetY = canvasOffset.top;
+
         },
         drawBar: function (c, graph) {
             var that = this,
@@ -226,9 +269,30 @@
                 c.fill();
                 c.textAlign = "left";
                 c.fillStyle = "#000";
-                c.fillText(config.data[0].values[i].Y, that.pixelX(i, 0) - config.yPadding / 4, that.pixelY(config.data[0].values[i].Y) - 10, 200);
+                c.fillText(config.data[0].values[i].Y, that.pixelX(i, 0) - config.yPadding / 4, that.pixelY(config.data[0].values[i].Y) + 7, 200);
             }
         },
+
+        drawStacked: function (c, graph) {
+            var that = this,
+            config = this.options;
+            for (var i = 0; i < config.data.length; i++) {
+                for (var j = 0; j < config.data[i].values.length; j++) {
+                    var randomcolor;
+                    c.strokeStyle = config.data[i].linecolor == "Random" ? config.data[i].values[j].color = randomcolor = that.getRandomColor() : config.data[i].linecolor;
+                    c.fillStyle = config.data[i].linecolor == "Random" ? randomcolor : config.data[i].linecolor;
+                    c.beginPath();
+                    c.rect(that.pixelX(j, 0) - config.yPadding / 4, that.pixelY(config.data[i].values[j].Y), config.yPadding / 2, graph.height() - that.pixelY(config.data[i].values[j].Y) - config.xPadding + 8);
+                    c.closePath();
+                    c.stroke();
+                    c.fill();
+                    c.textAlign = "left";
+                    c.fillStyle = "#000";
+                    c.fillText(config.data[i].values[j].Y, that.pixelX(j, 0) - config.yPadding / 4, that.pixelY(config.data[i].values[j].Y) + 7, 200);
+                }
+            }
+        },
+
         drawHybrid: function (c, graph) {
             var that = this,
             config = this.options;
@@ -258,7 +322,7 @@
             var canvasOffset = $(graph).offset();
             var offsetX = canvasOffset.left;
             var offsetY = canvasOffset.top;
-            $(graph[0]).on("mousemove", function (e) {                
+            $(graph[0]).on("mousemove", function (e) {
                 drawToolTiponHover(e);
             });
 
@@ -279,7 +343,7 @@
                     c.stroke();
                     c.fill();
                 }
-                if (config.ChartType == "Line" || config.ChartType == "Scattered") {
+                if (config.ChartType == "Line" || config.ChartType == "Scattered" || config.ChartType == "StackedHybrid") {
                     for (var j = 0; j < config.data[i].values.length; j++) {
                         c.beginPath();
                         c.arc(that.pixelX(j, i), that.pixelY(config.data[i].values[j].Y), 4, 0, Math.PI * 2, true);
@@ -310,14 +374,14 @@
                     var dot = linepoints[i];
                     var dx = mouseX - dot.x;
                     var dy = mouseY - dot.y;
-                    if (dx * dx + dy * dy < dot.rXr) {                        
+                    if (dx * dx + dy * dy < dot.rXr) {
                         tipCanvas[0].style.left = (dot.x - (tipCanvas[0].width / 2)) - 3 + "px";
                         tipCanvas[0].style.top = (dot.y - 21 - tipCanvas[0].height) + config.topmargin + "px";
                         tipCtx.clearRect(0, 0, tipCanvas[0].width, tipCanvas[0].height);
                         tipCtx.fillText(dot.tip, 5, 15);
                         tipbaloontip[0].style.left = (dot.x) - 7 + "px";
                         tipbaloontip[0].style.top = (dot.y + config.topmargin) - 19 + "px";
-                        if (config.ChartType == "Line" || config.ChartType == "Scattered" || config.ChartType == "Hybrid") {
+                        if (config.ChartType == "Line" || config.ChartType == "Scattered" || config.ChartType == "Hybrid" || config.ChartType == "StackedHybrid") {
                             highlighter[0].style.left = (dot.x) - 9 + "px";
                             highlighter[0].style.top = (dot.y + config.topmargin) - 9 + "px";
                         }
@@ -337,13 +401,13 @@
                 }
             }
         },
-        drawLegends: function () {
+        drawLegends: function (graph) {
             var that = this,
             config = this.options;
-            if (config.ChartType == "Line" || config.ChartType == "Area" || config.ChartType == "Scattered") {
+            if (config.ChartType == "Line" || config.ChartType == "Area" || config.ChartType == "Scattered" || config.ChartType == "Stacked" || config.ChartType == "StackedHybrid") {
                 var _legends = $("<div class='simple-chart-legends' />", { id: "legendsdiv" }).css({
-                    width: (config.legendposition == 'right' || config.legendposition == 'left') ? (config.legendsize - 5) : '',
-                    height: (config.legendposition == 'top' || config.legendposition == 'bottom') ? (config.legendsize - 5) : '',
+                    width: (config.legendposition == 'right' || config.legendposition == 'left') ? (config.legendsize - 5) : graph.width(),
+                    height: (config.legendposition == 'top' || config.legendposition == 'bottom') ? (config.legendsize - 5) : graph.height(),
                     float: (config.legendposition == 'right' || config.legendposition == 'left') ? 'left' : ''
                 }).appendTo($(that.element));
                 var _ul = $(_legends).append("<span>" + config.LegendTitle + "</span>").append("<ul />").find("ul")
@@ -362,8 +426,8 @@
             }
             if (config.ChartType == "Bar" || config.ChartType == "Hybrid" || config.ChartType == "Pie") {
                 var _legends = $("<div class='simple-chart-legends' />", { id: "legendsdiv" }).css({
-                    width: (config.legendposition == 'right' || config.legendposition == 'left') ? (config.legendsize - 5) : '',
-                    height: (config.legendposition == 'top' || config.legendposition == 'bottom') ? (config.legendsize - 5) : '',
+                    width: (config.legendposition == 'right' || config.legendposition == 'left') ? (config.legendsize - 5) : graph.width(),
+                    height: (config.legendposition == 'top' || config.legendposition == 'bottom') ? (config.legendsize - 5) : graph.height(),
                     float: (config.legendposition == 'right' || config.legendposition == 'left') ? 'left' : ''
                 }).appendTo($(that.element));
                 var _ul = $(_legends).append("<span>" + config.LegendTitle + "</span>").append("<ul />").find("ul")
