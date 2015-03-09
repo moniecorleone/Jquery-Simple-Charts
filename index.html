@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Jquery-simple-charts : Simple Jquery Line/Area/Scatterred Chart Plugin">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jquery-simple-charts</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/moniecorleone/Jquery-Simple-Charts">View on GitHub</a>
+
+          <h1 id="project_title">Jquery-simple-charts</h1>
+          <h2 id="project_tagline">Simple Jquery Line/Area/Scatterred Chart Plugin</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/moniecorleone/Jquery-Simple-Charts/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/moniecorleone/Jquery-Simple-Charts/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="simple-jquery-lineareascatterred-chart" class="anchor" href="#simple-jquery-lineareascatterred-chart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Jquery-Line/Area/Scatterred-Chart</h1>
+
+<p>This jquery plugin will draw Line, Area, Scattered, Bar, Hybrid, Pie, Stacked Bar chart using canvas element. </p>
+
+<h4>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h4>
+
+<p><a href="http://www.jqueryscript.net/demo/Lightweight-Line-Chart-Plugin-with-jQuery-Canvas/">Simple Charts</a></p>
+
+<h2>
+<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<h3>
+<a id="html" class="anchor" href="#html" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML</h3>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">'</span>linegraph<span class="pl-pds">'</span></span> <span class="pl-e">style</span>=<span class="pl-s1"><span class="pl-pds">'</span>width:98%;height:500px<span class="pl-pds">'</span></span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h3>
+<a id="jquery" class="anchor" href="#jquery" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery</h3>
+
+<div class="highlight highlight-js"><pre>        $(<span class="pl-st">function</span> () {
+        <span class="pl-s">var</span> graphdata1 <span class="pl-k">=</span> {
+                  linecolor<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>#FF99CC<span class="pl-pds">"</span></span>,
+                  title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Monday<span class="pl-pds">"</span></span>,
+                  values<span class="pl-k">:</span> [
+                  { X<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>6:00<span class="pl-pds">"</span></span>, Y<span class="pl-k">:</span> <span class="pl-c1">0.00</span> },
+                  { X<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>7:00<span class="pl-pds">"</span></span>, Y<span class="pl-k">:</span> <span class="pl-c1">20.00</span> }
+                  ]
+                  },graphdata2 <span class="pl-k">=</span> {
+                  linecolor<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>#00CC66<span class="pl-pds">"</span></span>,
+                  title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Tuesday<span class="pl-pds">"</span></span>,
+                  values<span class="pl-k">:</span> [
+                    { X<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>6:00<span class="pl-pds">"</span></span>, Y<span class="pl-k">:</span> <span class="pl-c1">0.00</span> },
+                  { X<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>7:00<span class="pl-pds">"</span></span>, Y<span class="pl-k">:</span> <span class="pl-c1">120.00</span> }
+                  ]
+              };
+            $(<span class="pl-s1"><span class="pl-pds">"</span>#linegraph<span class="pl-pds">"</span></span>).SimpleChart({
+                ChartType<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Line<span class="pl-pds">"</span></span>,
+                toolwidth<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>50<span class="pl-pds">"</span></span>,
+                toolheight<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>25<span class="pl-pds">"</span></span>,
+                axiscolor<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>#E6E6E6<span class="pl-pds">"</span></span>,
+                textcolor<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>#6E6E6E<span class="pl-pds">"</span></span>,
+                showlegends<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+                data<span class="pl-k">:</span> [graphdata4, graphdata3, graphdata2, graphdata1],
+                legendsize<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>80<span class="pl-pds">"</span></span>,
+                legendposition<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>bottom<span class="pl-pds">'</span></span>,
+                xaxislabel<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Hours<span class="pl-pds">'</span></span>,
+                title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Weekly Profit<span class="pl-pds">'</span></span>,
+                yaxislabel<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Profit in $<span class="pl-pds">'</span></span>
+            });
+        });</pre></div>
+
+<h3>
+<a id="copyright" class="anchor" href="#copyright" aria-hidden="true"><span class="octicon octicon-link"></span></a>Copyright</h3>
+
+<p>MIT-LICENCE</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jquery-simple-charts maintained by <a href="https://github.com/moniecorleone">moniecorleone</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
