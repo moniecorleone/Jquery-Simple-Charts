@@ -4,7 +4,7 @@ This jquery plugin will draw Line, Area, Scattered, Bar, Hybrid, Pie, Stacked Ba
 
 ####Demo
 
-[Simple Charts](http://www.jqueryscript.net/demo/Lightweight-Line-Chart-Plugin-with-jQuery-Canvas/)
+[Simple Charts](http://moniecorleone.github.io/Jquery-Simple-Charts/SimpleChart.html)
 
 
 
